@@ -41,6 +41,14 @@ export default {
         console.log("Updated!", response.data);
       });
     },
+    destroyContact: function (contact) {
+      axios.delete("http://localhost:3000/api/contacts/" + contact.id).then((response) => {
+        console.log("Contact removed.", response.data);
+        let index = this.contacts.indexOf(contact);
+        this.contacts.splice(index, 1);
+        this.contacts.push(response.data);
+      });
+    },
   },
 };
 </script>
@@ -59,6 +67,7 @@ export default {
         <h3>{{ currentContact.first_name }} {{ currentContact.last_name }}</h3>
         <p>Phone: {{ currentContact.phone_number }}</p>
         <p>Email: {{ currentContact.email }}</p>
+        <button v-on:click="destroyContact(currentContact)">Delete</button>
         <button>Close</button>
       </form>
     </dialog>
